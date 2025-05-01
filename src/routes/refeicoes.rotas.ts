@@ -116,24 +116,15 @@ export async function refeicoesRotas(app: FastifyInstance) {
     '/metrics',
     { preHandler: [verificarSessaoId] },
     async (request, reply) => {
-        const totalMealsOnDiet = Number(
-          Object.values(
-            await knex('Refeicoes')
-              .where({ user_id: request.user?.id, incluso_dieta: true })
-              .count('id as total')
-              .first() || { total: 0 }
-          )[0]
-        );
-        
-        const totalMealsOffDiet = Number(
-          Object.values(
-            await knex('Refeicoes')
-              .where({ user_id: request.user?.id, incluso_dieta: false })
-              .count('id as total')
-              .first() || { total: 0 }
-          )[0]
-        );
-        
+      const totalMealsOnDiet = await knex('Refeicoes')
+        .where({ user_id: request.user?.id, incluso_dieta: true })
+        .count('id', { as: 'total' })
+        .first()
+
+      const totalMealsOffDiet = await knex('Refeicoes')
+        .where({ user_id: request.user?.id, incluso_dieta: false })
+        .count('id', { as: 'total' })
+        .first()
 
       const totalMeals = await knex('Refeicoes')
         .where({ user_id: request.user?.id })
@@ -158,8 +149,8 @@ export async function refeicoesRotas(app: FastifyInstance) {
 
       return reply.send({
         totalMeals: totalMeals.length,
-        totalMealsOnDiet,
-        totalMealsOffDiet,
+        totalMealsOnDiet: totalMealsOnDiet?.total,
+        totalMealsOffDiet: totalMealsOffDiet?.total,
         bestOnDietSequence,
       })
     },

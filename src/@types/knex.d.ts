@@ -7,19 +7,19 @@ declare module 'knex/types/tables' {
             session_id: string
             nome: string
             email: string
-            criado_em: string
-            atualizado_em: string
+            created_at: string
+            updated_at: string
         }
 
         Refeicoes: {
             id: string
             user_id: string
             nome: string
-             descricao: string
+            descricao: string
             incluso_dieta: boolean
             date: number
-            criado_em: string
-            atualizado_em: string
+            created_at: string
+            updated_at: string
         }
     }
 }

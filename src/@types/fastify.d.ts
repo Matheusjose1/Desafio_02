@@ -7,8 +7,8 @@ declare module 'fastify'{
             session_id: string
             nome: string
             email: string
-            criado_em: string
-            atualizado_em: string
+            created_at: string
+            updated_at: string
         }
     }
 }
